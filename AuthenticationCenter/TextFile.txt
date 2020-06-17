@@ -1,0 +1,6 @@
+﻿1、response_type：隐藏模式支持三种response_type，上面获取access_token已经使用了一种，
+第二种是获取id_token:id_token。第三种是同时获取access_token和id_token：token id_token
+2、scope：上面的scope值"scretapi"是一个ApiResource，我们要获取Id_token，必需加入"openid"，
+这是一个IdentityResource。其它的profile,email等按需添加。
+3、除开上面的四个参数外，还需要添加一个参数:nonce。这个参数作用是协助你验证这个id_token是否由你自己发出的，可以是一个随机值，
+也可以是你自己的请求特征加密字符串，会随id_token一并返回供你验证。
