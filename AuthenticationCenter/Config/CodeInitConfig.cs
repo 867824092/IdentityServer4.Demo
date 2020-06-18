@@ -28,6 +28,7 @@ namespace AuthenticationCenter
         {
             return new[]
             {
+                //此处设置claim access_token中会显示
                 new ApiResource("AuthApi", "用户获取API",new List<string>(){IdentityModel.JwtClaimTypes.Role,"eMail" })
             };
         }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using AuthenticationCenter.Config;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -55,14 +56,24 @@ namespace AuthenticationCenter
             //   .AddInMemoryApiResources(CodeInitConfig.GetApiResources()) //API访问授权资源
             //   .AddInMemoryClients(CodeInitConfig.GetClients())//客户端
             //   .AddTestUsers(CodeInitConfig.GetUsers()); //添加用户
-            #endregion
-            #region Hybrid模式
+
+            //mvc 客户端
             services.AddIdentityServer()
                 .AddDeveloperSigningCredential()//默认的开发者证书 
-                .AddInMemoryIdentityResources(HybridInitConfig.GetIdentityResources())//身份信息授权资源
-               .AddInMemoryApiResources(HybridInitConfig.GetApiResources()) //API访问授权资源
-               .AddInMemoryClients(HybridInitConfig.GetClients())//客户端
-               .AddTestUsers(HybridInitConfig.GetUsers()); //添加用户
+                 .AddInMemoryIdentityResources(MvcOidcConfig.GetIdentityResources())//身份信息授权资源
+               .AddInMemoryApiResources(MvcOidcConfig.GetApiResources()) //API访问授权资源
+               .AddInMemoryClients(MvcOidcConfig.GetClients())//客户端
+               .AddTestUsers(MvcOidcConfig.GetUsers()) //测试用户
+               //.AddResourceOwnerValidator<CustomResourceOwnerPasswordValidator>()
+               ;
+            #endregion
+            #region Hybrid模式
+            //services.AddIdentityServer()
+            //    .AddDeveloperSigningCredential()//默认的开发者证书 
+            //    .AddInMemoryIdentityResources(HybridInitConfig.GetIdentityResources())//身份信息授权资源
+            //   .AddInMemoryApiResources(HybridInitConfig.GetApiResources()) //API访问授权资源
+            //   .AddInMemoryClients(HybridInitConfig.GetClients())//客户端
+            //   .AddTestUsers(HybridInitConfig.GetUsers()); //添加用户
             #endregion
         }
 
