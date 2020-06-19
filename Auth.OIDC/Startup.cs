@@ -47,10 +47,13 @@ namespace Auth.OIDC
                     options.RequireHttpsMetadata = false;
                     options.ClientId = "mvc";
                     options.ClientSecret = "secret";
-                    options.ResponseType = "code id_token";
+                    options.ResponseType = OidcConstants.ResponseTypes.CodeIdTokenToken;
                     options.SaveTokens = true;
                     options.GetClaimsFromUserInfoEndpoint = true;
                     options.Scope.Add("mvcProfile");
+                    options.Scope.Add(OidcConstants.StandardScopes.OfflineAccess);
+                    options.Scope.Add(OidcConstants.StandardScopes.OpenId);
+
                 });
             //services.AddAuthorization();
         }

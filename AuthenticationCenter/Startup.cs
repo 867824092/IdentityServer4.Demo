@@ -60,10 +60,10 @@ namespace AuthenticationCenter
             //mvc 客户端
             services.AddIdentityServer()
                 .AddDeveloperSigningCredential()//默认的开发者证书 
-                 .AddInMemoryIdentityResources(MvcOidcConfig.GetIdentityResources())//身份信息授权资源
-               .AddInMemoryApiResources(MvcOidcConfig.GetApiResources()) //API访问授权资源
-               .AddInMemoryClients(MvcOidcConfig.GetClients())//客户端
-               .AddTestUsers(MvcOidcConfig.GetUsers()) //测试用户
+                 .AddInMemoryIdentityResources(ClientOIDCConfig.GetIdentityResources())//身份信息授权资源
+               .AddInMemoryApiResources(ClientOIDCConfig.GetApiResources()) //API访问授权资源
+               .AddInMemoryClients(ClientOIDCConfig.GetClients())//客户端
+               .AddTestUsers(ClientOIDCConfig.GetUsers()) //测试用户
                //.AddResourceOwnerValidator<CustomResourceOwnerPasswordValidator>()
                ;
             #endregion
