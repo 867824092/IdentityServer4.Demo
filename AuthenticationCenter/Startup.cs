@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using AuthenticationCenter.Config;
+using AuthenticationCenter.Utility;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -29,6 +30,8 @@ namespace AuthenticationCenter
         {
             //services.AddControllers();
             services.AddControllersWithViews();
+            //设置相同站点Cookie策略 不然IdS4无法跳转
+            services.AddSameSiteCookiePolicy();
             #region 客户端
             //services.AddIdentityServer()//怎么处理
             //  .AddDeveloperSigningCredential()//默认的开发者证书--临时证书--生产环境为了保证token不失效，证书是不变的
@@ -44,11 +47,11 @@ namespace AuthenticationCenter
             //  ;
             #endregion
             #region 隐藏模式
-            //services.AddIdentityServer()
-            //    .AddDeveloperSigningCredential()//默认的开发者证书 
-            //   .AddInMemoryApiResources(ImplicitInitConfig.GetApiResources()) //API访问授权资源
-            //   .AddInMemoryClients(ImplicitInitConfig.GetClients())//客户端
-            //   .AddTestUsers(ImplicitInitConfig.GetUsers()); //添加用户
+            services.AddIdentityServer()
+                .AddDeveloperSigningCredential()//默认的开发者证书 
+               .AddInMemoryApiResources(ImplicitInitConfig.GetApiResources()) //API访问授权资源
+               .AddInMemoryClients(ImplicitInitConfig.GetClients())//客户端
+               .AddTestUsers(ImplicitInitConfig.GetUsers()); //添加用户
             #endregion
             #region Code模式
             //services.AddIdentityServer()
@@ -58,14 +61,14 @@ namespace AuthenticationCenter
             //   .AddTestUsers(CodeInitConfig.GetUsers()); //添加用户
 
             //mvc 客户端
-            services.AddIdentityServer()
-                .AddDeveloperSigningCredential()//默认的开发者证书 
-                 .AddInMemoryIdentityResources(ClientOIDCConfig.GetIdentityResources())//身份信息授权资源
-               .AddInMemoryApiResources(ClientOIDCConfig.GetApiResources()) //API访问授权资源
-               .AddInMemoryClients(ClientOIDCConfig.GetClients())//客户端
-               .AddTestUsers(ClientOIDCConfig.GetUsers()) //测试用户
-               //.AddResourceOwnerValidator<CustomResourceOwnerPasswordValidator>()
-               ;
+            //services.AddIdentityServer()
+            //    .AddDeveloperSigningCredential()//默认的开发者证书 
+            //     .AddInMemoryIdentityResources(ClientOIDCConfig.GetIdentityResources())//身份信息授权资源
+            //   .AddInMemoryApiResources(ClientOIDCConfig.GetApiResources()) //API访问授权资源
+            //   .AddInMemoryClients(ClientOIDCConfig.GetClients())//客户端
+            //   .AddTestUsers(ClientOIDCConfig.GetUsers()) //测试用户
+            //   //.AddResourceOwnerValidator<CustomResourceOwnerPasswordValidator>()
+            //   ;
             #endregion
             #region Hybrid模式
             //services.AddIdentityServer()
@@ -84,7 +87,8 @@ namespace AuthenticationCenter
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            //需要设置Cookie管道
+            app.UseCookiePolicy();
             app.UseStaticFiles(
                new StaticFileOptions()
                {
